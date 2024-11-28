@@ -15,8 +15,6 @@ input_window = ttk.Entry()
 
 # functions
 def update_label(value: str) -> None:
-    if type(display_label_1.cget("text")) in [int, float]:
-        display_label_1.config(text="")
     match value:
         case "◄":
             display_label_1.config(text=display_label_1.cget("text")[:-1])
@@ -24,7 +22,9 @@ def update_label(value: str) -> None:
             expression = display_label_1.cget("text")
             expression = expression.replace("÷", "/")
             expression = expression = expression.replace("×", "*")
-            display_label_1.config(text=eval(expression))
+            display_label_1.config(text=str(eval(expression)))
+        case "C":
+            display_label_1.config(text="")
         case _:
             display_label_1.config(text=display_label_1.cget("text") + value)
 
@@ -46,11 +46,11 @@ zero_button = ttk.Button(text="0", command=partial(update_label, "0"))
 equal_button = ttk.Button(text="=", command=partial(update_label, "="))
 backspace_button = ttk.Button(text="◄", command=partial(update_label, "◄"))
 decimal_point_button = ttk.Button(text=".", command=partial(update_label, "."))
+clear_button = ttk.Button(text="C", command=partial(update_label, "C"))
 
 # All packings
 display_label_1.pack()
 display_label_2.pack()
-# input_window.pack()
 plus_button.pack()
 minus_button.pack()
 divide_button.pack()
@@ -68,7 +68,7 @@ zero_button.pack()
 equal_button.pack()
 backspace_button.pack()
 decimal_point_button.pack()
+clear_button.pack()
 
-print(window.pack_slaves())
 
 window.mainloop()
